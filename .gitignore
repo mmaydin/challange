@@ -3,7 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 
-data/
+data/db/
+data/logs/
 
 !**/src/test/**
 
