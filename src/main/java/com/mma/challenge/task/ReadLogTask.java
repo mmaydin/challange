@@ -9,7 +9,6 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.mma.challenge.service.KafkaService;
+import com.mma.challenge.util.MainUtil;
 
 @Component
 public class ReadLogTask {
@@ -33,10 +33,8 @@ public class ReadLogTask {
     @Autowired
 	private KafkaService kafkaService;
 
-    private Date lastLogCreatedAt = new Date();
-	
-	private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss.SSS");	
-	
+    private Date lastLogCreatedAt = new Date();	
+
 	@Scheduled(fixedDelay = 500)
 	public void readCityLog() {
 		WatchKey key;
@@ -63,7 +61,7 @@ public class ReadLogTask {
                 	String[] lineParts = line.split("\t");
                 	if (lineParts != null && lineParts.length > 0) {
                 		try {
-							Date logDate = dateFormatter.parse(lineParts[0]);
+							Date logDate = MainUtil.getDateFormatter().parse(lineParts[0]);
 							
 							if (logDate.after(lastLogCreatedAt)) {
 
@@ -80,7 +78,7 @@ public class ReadLogTask {
                 	lastLogCreatedAt = lastLineDate;
                 }
 
-                kafkaService.sendCityLog(String.join("\n", lines));
+                kafkaService.sendCityLog(lines);
 
             } catch (IOException e) {
 

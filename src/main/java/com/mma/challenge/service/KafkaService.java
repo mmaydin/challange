@@ -1,7 +1,9 @@
 package com.mma.challenge.service;
 
+import java.util.List;
+
 public interface KafkaService {
 
-	public void sendCityLog(String lines);
+	public void sendCityLog(List<String> lines);
 
 }

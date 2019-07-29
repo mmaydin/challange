@@ -1,12 +1,19 @@
 package com.mma.challenge.util;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 public class MainUtil {
+	
+	private static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss.SSS");
+
+	public static SimpleDateFormat getDateFormatter() {
+		return dateFormatter;
+	}
 
 	public static File[] sortFilesByName(File[] files) {
 		if (files != null && files.length > 0) {

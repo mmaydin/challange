@@ -16,7 +16,7 @@ public class FileReaderConfiguration {
 
 	@Value("${challange.logPath}")
 	private String logPath;
-	
+
 	@Bean
     public WatchService watchService() throws IOException {
         return FileSystems.getDefault().newWatchService();
@@ -32,7 +32,6 @@ public class FileReaderConfiguration {
         }
 
         return path;
-
     }
 
 }
