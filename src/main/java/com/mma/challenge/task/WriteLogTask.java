@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,8 +20,6 @@ import com.mma.challenge.utils.MainUtil;
 
 @Component
 public class WriteLogTask {
-
-	private static Logger log = LoggerFactory.getLogger(WriteLogTask.class);
 	
 	@Value("${challange.logPath}")
 	private String logPath;
@@ -35,7 +31,6 @@ public class WriteLogTask {
 	
 	@Scheduled(cron = "*/3 * * * * ?")
 	public void writeCityLog() {
-		//log.info("WRITE CITY LOG START");
 
 		List<LogLevelType> logLevelList = Arrays.asList(LogLevelType.values());
 		
@@ -68,8 +63,6 @@ public class WriteLogTask {
 	    		if (fileSizeInBytes > 0) {
 	    			long fileSizeInKB = fileSizeInBytes / 1024;
 	    			
-	    			// FIXME
-	    			//if (fileSizeInKB > 2048) {
 	    			if (fileSizeInKB >= maxLogSize) {
 	    				createNewFile = true;
 	    			}
@@ -103,8 +96,6 @@ public class WriteLogTask {
 	    	    System.err.println(e);
 	    	}
 	    }
-
-		//log.info("WRITE CITY LOG END");
 	}
 
 }
