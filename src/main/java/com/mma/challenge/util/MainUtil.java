@@ -1,4 +1,4 @@
-package com.mma.challenge.utils;
+package com.mma.challenge.util;
 
 import java.io.File;
 import java.util.Arrays;

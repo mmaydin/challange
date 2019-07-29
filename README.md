@@ -1,3 +1,3 @@
 docker-compose up
 
-mvn spring-boot:run
+http://localhost:9090

@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.mma.challenge.entity.LogLevelType;
-import com.mma.challenge.utils.MainUtil;
+import com.mma.challenge.util.MainUtil;
 
 @Component
 public class WriteLogTask {
