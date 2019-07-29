@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -8,6 +8,8 @@ services:
         restart: always
         ports:
             - 2181:2181
+        networks:
+            - challengenetwork
 
     kafka:
         image: wurstmeister/kafka
@@ -17,10 +19,10 @@ services:
             - 9092:9092
         depends_on:
             - zookeeper
-        links:
-            - zookeeper:zookeeper
+        networks:
+            - challengenetwork
         environment:
-            KAFKA_ADVERTISED_HOST_NAME: localhost
+            KAFKA_ADVERTISED_HOST_NAME: kafka
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
     mongodb:
@@ -33,4 +35,24 @@ services:
             - ./data/db:/data/db
         ports:
             - 27017:27017
-        command: mongod --smallfiles --logpath=/dev/null # --quiet
+        networks:
+            - challengenetwork
+        command: mongod --smallfiles --logpath=/dev/null
+
+    challenge:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: challenge
+        depends_on:
+            - mongodb
+            - kafka
+        volumes:
+            - ./data/logs:/data/logs
+        ports:
+            - 9090:9090
+        networks:
+            - challengenetwork
+
+networks:
+    challengenetwork:
