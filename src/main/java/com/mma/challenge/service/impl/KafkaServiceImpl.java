@@ -23,13 +23,13 @@ import com.mma.challenge.util.MainUtil;
 public class KafkaServiceImpl implements KafkaService {
 
 	@Value("${kafka.topic}")
-    private String topic;
+	private String topic;
 
 	@Autowired
 	private KafkaTemplate<String, CityLogData> kafkaTemplate;
 
 	@Autowired
-    private SimpMessagingTemplate template;
+	private SimpMessagingTemplate template;
 
 	@Autowired
 	private CityLogService cityLogService;

@@ -23,11 +23,11 @@ public class CityLogController {
 	@GetMapping
 	public List<CityLog> findAll() {
 		return cityLogService.findAll();
-    }
+	}
 
 	@GetMapping("/{cityName}")
 	public List<CityLog> findByCityName(@PathVariable String cityName) {
 		return cityLogService.findByCityName(cityName);
-    }
+	}
 
 }
