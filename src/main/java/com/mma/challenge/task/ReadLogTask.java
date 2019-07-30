@@ -23,20 +23,20 @@ import com.mma.challenge.util.MainUtil;
 @Component
 public class ReadLogTask {
 
-	@Value("${challange.logPath}")
-	private String logPath;
-	
-	@Autowired
-	private WatchService watchService;
+    @Value("${challange.logPath}")
+    private String logPath;
 
-	@Autowired
-	private KafkaService kafkaService;
+    @Autowired
+    private WatchService watchService;
 
-	private Date lastLogCreatedAt = new Date();	
+    @Autowired
+    private KafkaService kafkaService;
 
-	@Scheduled(fixedDelay = 500)
-	public void readCityLog() {
-		WatchKey key;
+    private Date lastLogCreatedAt = new Date();
+
+    @Scheduled(fixedDelay = 500)
+    public void readCityLog() {
+        WatchKey key;
         try {
             key = watchService.take();
         } catch (InterruptedException e) {
@@ -44,33 +44,33 @@ public class ReadLogTask {
         }
 
         for (WatchEvent<?> event : key.pollEvents()) {
-        	WatchEvent<Path> ev = cast(event);
-        	Path filename = ev.context();
+            WatchEvent<Path> ev = cast(event);
+            Path filename = ev.context();
 
-        	String filePath = logPath + filename;
+            String filePath = logPath + filename;
 
-        	try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
+            try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
 
-        		CityLogData cityLogData = new CityLogData();
+                CityLogData cityLogData = new CityLogData();
 
                 // read line by line
                 String line;
                 Date lastLineDate = null;
                 while ((line = br.readLine()) != null) {
-                	String[] lineParts = line.split("\t");
-                	if (lineParts != null && lineParts.length > 0) {
-                		try {
-                			Date logDate = MainUtil.getDateFormatter().parse(lineParts[0]);
+                    String[] lineParts = line.split("\t");
+                    if (lineParts != null && lineParts.length > 0) {
+                        try {
+                            Date logDate = MainUtil.getDateFormatter().parse(lineParts[0]);
 
-                			if (logDate.after(lastLogCreatedAt)) {
-                				cityLogData.addCityLog(line);
+                            if (logDate.after(lastLogCreatedAt)) {
+                                cityLogData.addCityLog(line);
 
-                				lastLineDate = logDate;
-                			}
-            			} catch (ParseException e) {
+                                lastLineDate = logDate;
+                            }
+                        } catch (ParseException e) {
 
-            			}
-                	}
+                        }
+                    }
                 }
 
                 if (lastLineDate != null) {
@@ -85,11 +85,11 @@ public class ReadLogTask {
         }
 
         key.reset();
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-		return (WatchEvent<T>)event;
-	}
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> WatchEvent<T> cast(WatchEvent<?> event) {
+        return (WatchEvent<T>) event;
+    }
 
 }
