@@ -13,6 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.mma.challenge.entity.CityLog;
+import com.mma.challenge.entity.CityLogData;
 import com.mma.challenge.entity.LogLevelType;
 import com.mma.challenge.service.CityLogService;
 import com.mma.challenge.service.KafkaService;
@@ -25,7 +26,7 @@ public class KafkaServiceImpl implements KafkaService {
     private String topic;
 
 	@Autowired
-	private KafkaTemplate<String, List<String>> kafkaTemplate;
+	private KafkaTemplate<String, CityLogData> kafkaTemplate;
 
 	@Autowired
     private SimpMessagingTemplate template;
@@ -33,18 +34,19 @@ public class KafkaServiceImpl implements KafkaService {
 	@Autowired
 	private CityLogService cityLogService;
 
-	public void sendCityLog(List<String> lines) {
-		if (lines != null && lines.size() > 0) {
-			kafkaTemplate.send(topic, lines);
+	public void sendCityLog(CityLogData cityLogData) {
+		if (cityLogData != null && cityLogData.getCityLogs().size() > 0) {
+
+			kafkaTemplate.send(topic, cityLogData);
 		}
 	}
 
 	@KafkaListener(topics = "${kafka.topic}")
-	public void readCityLog(@Payload List<String> lines) {
-		if (lines != null && lines.size() > 0) {
+	public void readCityLog(@Payload CityLogData cityLogData) {
+		if (cityLogData != null && cityLogData.getCityLogs().size() > 0) {
 
 			List<CityLog> cityLogs = new ArrayList<CityLog>();
-			for (String line: lines) {
+			for (String line: cityLogData.getCityLogs()) {
 				String[] lineParts = line.split("\t");
 				if (lineParts.length > 0) {
 					CityLog cityLog = new CityLog();
@@ -55,14 +57,14 @@ public class KafkaServiceImpl implements KafkaService {
 					cityLog.setCityName(lineParts[2]);
 					cityLog.setLevel(LogLevelType.valueOf(lineParts[1]));
 					cityLog.setDetail(lineParts[3]);
-					
+
 					cityLogs.add(cityLog);
-					
-					template.convertAndSend("/topic/citylog", cityLogs);
 				}
 			}
-			
+
 			if (cityLogs.size() > 0) {
+				template.convertAndSend("/topic/citylog", cityLogs);
+				
 				cityLogService.saveAll(cityLogs);
 			}
 		}

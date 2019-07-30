@@ -30,4 +30,9 @@ public class CityLogServiceImpl implements CityLogService {
 		return cityLogRepository.findByCityName(cityName);
 	}
 
+	@Override
+	public List<CityLog> findAll() {
+		return cityLogRepository.findAll();
+	}
+
 }

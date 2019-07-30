@@ -1,18 +1,19 @@
 package com.mma.challenge.configuration;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.apache.kafka.connect.json.JsonSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import com.mma.challenge.entity.CityLogData;
 
 @Configuration
 public class KafkaProducerConfiguration {
@@ -31,12 +32,12 @@ public class KafkaProducerConfiguration {
     }
 
     @Bean
-    public ProducerFactory<String, List<String>> producerFactory() {
+    public ProducerFactory<String, CityLogData> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, List<String>> kafkaTemplate() {
+    public KafkaTemplate<String, CityLogData> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

@@ -9,15 +9,14 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.mma.challenge.entity.CityLogData;
 import com.mma.challenge.service.KafkaService;
 import com.mma.challenge.util.MainUtil;
 
@@ -50,9 +49,9 @@ public class ReadLogTask {
 
         	String filePath = logPath + filename;
 
-        	List<String> lines = new ArrayList<String>();
-
         	try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
+
+        		CityLogData cityLogData = new CityLogData();
 
                 // read line by line
                 String line;
@@ -65,7 +64,7 @@ public class ReadLogTask {
 							
 							if (logDate.after(lastLogCreatedAt)) {
 
-								lines.add(line);
+								cityLogData.addCityLog(line);
 
 								lastLineDate = logDate;
 							}
@@ -78,7 +77,7 @@ public class ReadLogTask {
                 	lastLogCreatedAt = lastLineDate;
                 }
 
-                kafkaService.sendCityLog(lines);
+                kafkaService.sendCityLog(cityLogData);
 
             } catch (IOException e) {
 

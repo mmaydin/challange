@@ -12,4 +12,6 @@ public interface CityLogService {
 
 	public List<CityLog> findByCityName(String cityName);
 
+	public List<CityLog> findAll();
+
 }

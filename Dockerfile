@@ -10,5 +10,5 @@ COPY . /app
 RUN mvn -v
 RUN mvn clean install -DskipTests
 EXPOSE 8080
-ADD ./target/challenge-0.0.1.jar /developments/
-ENTRYPOINT ["java","-jar","/developments/challenge-0.0.1.jar", "--spring.config.location=file:/app/application.properties"]
+
+ENTRYPOINT ["java","-jar","/app/target/challenge-0.0.1.jar","--spring.config.location=file:/app/application.properties"]
