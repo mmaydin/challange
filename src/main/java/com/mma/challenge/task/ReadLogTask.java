@@ -25,14 +25,14 @@ public class ReadLogTask {
 
 	@Value("${challange.logPath}")
 	private String logPath;
+	
+	@Autowired
+	private WatchService watchService;
 
-    @Autowired
-    private WatchService watchService;
-
-    @Autowired
+	@Autowired
 	private KafkaService kafkaService;
 
-    private Date lastLogCreatedAt = new Date();	
+	private Date lastLogCreatedAt = new Date();	
 
 	@Scheduled(fixedDelay = 500)
 	public void readCityLog() {
@@ -60,21 +60,21 @@ public class ReadLogTask {
                 	String[] lineParts = line.split("\t");
                 	if (lineParts != null && lineParts.length > 0) {
                 		try {
-							Date logDate = MainUtil.getDateFormatter().parse(lineParts[0]);
-							
-							if (logDate.after(lastLogCreatedAt)) {
+                			Date logDate = MainUtil.getDateFormatter().parse(lineParts[0]);
 
-								cityLogData.addCityLog(line);
+                			if (logDate.after(lastLogCreatedAt)) {
+                				cityLogData.addCityLog(line);
 
-								lastLineDate = logDate;
-							}
-						} catch (ParseException e) {
-						}
+                				lastLineDate = logDate;
+                			}
+            			} catch (ParseException e) {
+
+            			}
                 	}
                 }
 
                 if (lastLineDate != null) {
-                	lastLogCreatedAt = lastLineDate;
+                    lastLogCreatedAt = lastLineDate;
                 }
 
                 kafkaService.sendCityLog(cityLogData);
@@ -88,8 +88,8 @@ public class ReadLogTask {
 	}
 	
 	@SuppressWarnings("unchecked")
-    private static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-        return (WatchEvent<T>)event;
-    }
+	private static <T> WatchEvent<T> cast(WatchEvent<?> event) {
+		return (WatchEvent<T>)event;
+	}
 
 }

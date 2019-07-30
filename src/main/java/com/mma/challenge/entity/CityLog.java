@@ -19,16 +19,16 @@ public class CityLog implements Serializable {
 
 	@JsonIgnore
 	@Id
-    private String id;
+	private String id;
 
-    private Date createdAt;
+	private Date createdAt;
 
-    private LogLevelType level;
+	private LogLevelType level;
+	
+	@Indexed
+	private String cityName;
 
-    @Indexed
-    private String cityName;
-
-    private String detail;
+	private String detail;
 
 	public String getId() {
 		return id;
