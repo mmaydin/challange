@@ -15,59 +15,59 @@ import lombok.Data;
 @Document(collection = "city_logs")
 public class CityLog implements Serializable {
 
-	private static final long serialVersionUID = 1397274908126381148L;
+    private static final long serialVersionUID = 1397274908126381148L;
 
-	@JsonIgnore
-	@Id
-	private String id;
+    @JsonIgnore
+    @Id
+    private String id;
 
-	private Date createdAt;
+    private Date createdAt;
 
-	private LogLevelType level;
-	
-	@Indexed
-	private String cityName;
+    private LogLevelType level;
 
-	private String detail;
+    @Indexed
+    private String cityName;
 
-	public String getId() {
-		return id;
-	}
+    private String detail;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public LogLevelType getLevel() {
-		return level;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setLevel(LogLevelType level) {
-		this.level = level;
-	}
+    public LogLevelType getLevel() {
+        return level;
+    }
 
-	public String getCityName() {
-		return cityName;
-	}
+    public void setLevel(LogLevelType level) {
+        this.level = level;
+    }
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
-	}
+    public String getCityName() {
+        return cityName;
+    }
 
-	public String getDetail() {
-		return detail;
-	}
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
 
 }

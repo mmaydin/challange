@@ -18,10 +18,10 @@ import com.mma.challenge.entity.CityLogData;
 @Configuration
 public class KafkaProducerConfiguration {
 
-	@Value("${kafka.bootstrapservers}")
-	public String bootstrapServers;
+    @Value("${kafka.bootstrapservers}")
+    public String bootstrapServers;
 
-	@Bean
+    @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);

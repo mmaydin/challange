@@ -10,6 +10,6 @@ import com.mma.challenge.entity.CityLog;
 @Repository
 public interface CityLogRepository extends MongoRepository<CityLog, String> {
 
-	List<CityLog> findByCityName(String cityName);
+    List<CityLog> findByCityName(String cityName);
 
 }

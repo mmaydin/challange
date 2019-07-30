@@ -12,22 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mma.challenge.entity.CityLog;
 import com.mma.challenge.service.CityLogService;
 
-
 @RestController
 @RequestMapping(value = "/api/citylog", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CityLogController {
 
-	@Autowired
-	private CityLogService cityLogService;
+    @Autowired
+    private CityLogService cityLogService;
 
-	@GetMapping
-	public List<CityLog> findAll() {
-		return cityLogService.findAll();
-	}
+    @GetMapping
+    public List<CityLog> findAll() {
+        return cityLogService.findAll();
+    }
 
-	@GetMapping("/{cityName}")
-	public List<CityLog> findByCityName(@PathVariable String cityName) {
-		return cityLogService.findByCityName(cityName);
-	}
+    @GetMapping("/{cityName}")
+    public List<CityLog> findByCityName(@PathVariable String cityName) {
+        return cityLogService.findByCityName(cityName);
+    }
 
 }

@@ -22,52 +22,52 @@ import com.mma.challenge.util.MainUtil;
 @Service
 public class KafkaServiceImpl implements KafkaService {
 
-	@Value("${kafka.topic}")
-	private String topic;
+    @Value("${kafka.topic}")
+    private String topic;
 
-	@Autowired
-	private KafkaTemplate<String, CityLogData> kafkaTemplate;
+    @Autowired
+    private KafkaTemplate<String, CityLogData> kafkaTemplate;
 
-	@Autowired
-	private SimpMessagingTemplate template;
+    @Autowired
+    private SimpMessagingTemplate template;
 
-	@Autowired
-	private CityLogService cityLogService;
+    @Autowired
+    private CityLogService cityLogService;
 
-	public void sendCityLog(CityLogData cityLogData) {
-		if (cityLogData != null && cityLogData.getCityLogs().size() > 0) {
+    public void sendCityLog(CityLogData cityLogData) {
+        if (cityLogData != null && cityLogData.getCityLogs().size() > 0) {
 
-			kafkaTemplate.send(topic, cityLogData);
-		}
-	}
+            kafkaTemplate.send(topic, cityLogData);
+        }
+    }
 
-	@KafkaListener(topics = "${kafka.topic}")
-	public void readCityLog(@Payload CityLogData cityLogData) {
-		if (cityLogData != null && cityLogData.getCityLogs().size() > 0) {
+    @KafkaListener(topics = "${kafka.topic}")
+    public void readCityLog(@Payload CityLogData cityLogData) {
+        if (cityLogData != null && cityLogData.getCityLogs().size() > 0) {
 
-			List<CityLog> cityLogs = new ArrayList<CityLog>();
-			for (String line: cityLogData.getCityLogs()) {
-				String[] lineParts = line.split("\t");
-				if (lineParts.length > 0) {
-					CityLog cityLog = new CityLog();
-					try {
-						cityLog.setCreatedAt(MainUtil.getDateFormatter().parse(lineParts[0]));
-					} catch (ParseException e) {
-					}
-					cityLog.setCityName(lineParts[2]);
-					cityLog.setLevel(LogLevelType.valueOf(lineParts[1]));
-					cityLog.setDetail(lineParts[3]);
+            List<CityLog> cityLogs = new ArrayList<CityLog>();
+            for (String line : cityLogData.getCityLogs()) {
+                String[] lineParts = line.split("\t");
+                if (lineParts.length > 0) {
+                    CityLog cityLog = new CityLog();
+                    try {
+                        cityLog.setCreatedAt(MainUtil.getDateFormatter().parse(lineParts[0]));
+                    } catch (ParseException e) {
+                    }
+                    cityLog.setCityName(lineParts[2]);
+                    cityLog.setLevel(LogLevelType.valueOf(lineParts[1]));
+                    cityLog.setDetail(lineParts[3]);
 
-					cityLogs.add(cityLog);
-				}
-			}
+                    cityLogs.add(cityLog);
+                }
+            }
 
-			if (cityLogs.size() > 0) {
-				template.convertAndSend("/topic/citylog", cityLogs);
-				
-				cityLogService.saveAll(cityLogs);
-			}
-		}
-	}
+            if (cityLogs.size() > 0) {
+                template.convertAndSend("/topic/citylog", cityLogs);
+
+                cityLogService.saveAll(cityLogs);
+            }
+        }
+    }
 
 }

@@ -4,6 +4,6 @@ import com.mma.challenge.entity.CityLogData;
 
 public interface KafkaService {
 
-	public void sendCityLog(CityLogData cityLogData);
+    public void sendCityLog(CityLogData cityLogData);
 
 }

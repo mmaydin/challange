@@ -13,22 +13,22 @@ import org.springframework.kafka.core.KafkaAdmin;
 @Configuration
 public class KafkaTopicConfiguration {
 
-	@Value(value = "${kafka.bootstrapservers}")
+    @Value(value = "${kafka.bootstrapservers}")
     private String bootstrapServers;
-    
+
     @Value(value = "${kafka.topic}")
     private String topicName;
-    
+
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         return new KafkaAdmin(configs);
     }
-    
+
     @Bean
     public NewTopic topic1() {
-         return new NewTopic(topicName, 1, (short) 1);
+        return new NewTopic(topicName, 1, (short) 1);
     }
 
 }

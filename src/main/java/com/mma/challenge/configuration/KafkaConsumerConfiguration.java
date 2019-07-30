@@ -22,10 +22,10 @@ import com.mma.challenge.entity.CityLogData;
 @Configuration
 public class KafkaConsumerConfiguration {
 
-	@Value("${kafka.bootstrapservers}")
-	public String bootstrapServers;
+    @Value("${kafka.bootstrapservers}")
+    public String bootstrapServers;
 
-	@Bean
+    @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -39,9 +39,8 @@ public class KafkaConsumerConfiguration {
 
     @Bean
     public ConsumerFactory<String, CityLogData> consumerFactory() {
-      return new DefaultKafkaConsumerFactory<>(consumerConfigs(),
-    		  new StringDeserializer(),
-    		  new JsonDeserializer<>(CityLogData.class));
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
+                new JsonDeserializer<>(CityLogData.class));
     }
 
     @Bean

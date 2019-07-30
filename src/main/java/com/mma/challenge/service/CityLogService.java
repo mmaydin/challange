@@ -6,12 +6,12 @@ import com.mma.challenge.entity.CityLog;
 
 public interface CityLogService {
 
-	public CityLog save(CityLog cityLog);
+    public CityLog save(CityLog cityLog);
 
-	public List<CityLog> saveAll(List<CityLog> cityLogs);
+    public List<CityLog> saveAll(List<CityLog> cityLogs);
 
-	public List<CityLog> findByCityName(String cityName);
+    public List<CityLog> findByCityName(String cityName);
 
-	public List<CityLog> findAll();
+    public List<CityLog> findAll();
 
 }

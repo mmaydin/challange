@@ -12,27 +12,27 @@ import com.mma.challenge.service.CityLogService;
 @Service
 public class CityLogServiceImpl implements CityLogService {
 
-	@Autowired
-	private CityLogRepository cityLogRepository;
+    @Autowired
+    private CityLogRepository cityLogRepository;
 
-	@Override
-	public CityLog save(CityLog cityLog) {
-		return cityLogRepository.save(cityLog);
-	}
+    @Override
+    public CityLog save(CityLog cityLog) {
+        return cityLogRepository.save(cityLog);
+    }
 
-	@Override
-	public List<CityLog> saveAll(List<CityLog> cityLogs) {
-		return cityLogRepository.saveAll(cityLogs);
-	}
+    @Override
+    public List<CityLog> saveAll(List<CityLog> cityLogs) {
+        return cityLogRepository.saveAll(cityLogs);
+    }
 
-	@Override
-	public List<CityLog> findByCityName(String cityName) {
-		return cityLogRepository.findByCityName(cityName);
-	}
+    @Override
+    public List<CityLog> findByCityName(String cityName) {
+        return cityLogRepository.findByCityName(cityName);
+    }
 
-	@Override
-	public List<CityLog> findAll() {
-		return cityLogRepository.findAll();
-	}
+    @Override
+    public List<CityLog> findAll() {
+        return cityLogRepository.findAll();
+    }
 
 }

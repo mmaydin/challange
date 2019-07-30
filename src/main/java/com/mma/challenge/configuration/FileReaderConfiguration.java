@@ -14,16 +14,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FileReaderConfiguration {
 
-	@Value("${challange.logPath}")
-	private String logPath;
+    @Value("${challange.logPath}")
+    private String logPath;
 
-	@Bean
+    @Bean
     public WatchService watchService() throws IOException {
         return FileSystems.getDefault().newWatchService();
     }
 
     @Bean
-    public Path path(){
+    public Path path() {
         Path path = Paths.get(logPath);
 
         try {
